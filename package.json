@@ -28,6 +28,7 @@
     "@types/next-auth": "^3.15.0",
     "@types/node": "^16.11.1",
     "@types/prismic-dom": "^2.1.1",
+    "@types/prismjs": "^1.16.6",
     "@types/react": "^17.0.30",
     "eslint": "8.0.1",
     "eslint-config-next": "11.1.2",

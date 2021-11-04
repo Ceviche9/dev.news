@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Head from 'next/head'
 import { getSession } from "next-auth/client"
 import { RichText } from "prismic-dom";
@@ -7,9 +8,18 @@ import { getPrismicClient } from "../../services/prismic";
 
 import { PostContentProps } from '../../protocols/postProtocols';
 
+import ReactMarkdown from 'react-markdown';
+import remarkHtml from 'remark-html';
+
+import prims from 'prismjs'
+
 import styles from './post.module.scss'
 
 export default function Post({ post }: PostContentProps) {
+  useEffect(() => {
+    prims.highlightAll();
+  }, []);
+
   return(
     <>
       <Head>
@@ -19,10 +29,12 @@ export default function Post({ post }: PostContentProps) {
         <article className={styles.post}>
           <h1>{post.title}</h1>
           <time>{post.updatedAt}</time>
-          <div 
-            className={styles.postContent} 
-            dangerouslySetInnerHTML={{__html: post.content}} 
-          />
+          <ReactMarkdown
+            remarkPlugins={[remarkHtml]}
+            className={styles.postContent}
+          >
+            {post.content}
+          </ReactMarkdown>
         </article>
       </main>
     </>
@@ -50,7 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
   const post = {
     slug,
     title: RichText.asText(response.data.title),
-    content: RichText.asHtml(response.data.content),
+    content: RichText.asText(response.data.content),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: 'long',
@@ -60,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 
   return {
     props: {
-      post
+      post,
     }
   }
 }

@@ -9,7 +9,7 @@ import { getPrismicClient } from "../../services/prismic";
 import { PostContentProps } from '../../protocols/postProtocols';
 
 import ReactMarkdown from 'react-markdown';
-import remarkHtml from 'remark-html';
+// import remarkHtml from 'remark-html';
 
 import prims from 'prismjs'
 
@@ -30,7 +30,6 @@ export default function Post({ post }: PostContentProps) {
           <h1>{post.title}</h1>
           <time>{post.updatedAt}</time>
           <ReactMarkdown
-            remarkPlugins={[remarkHtml]}
             className={styles.postContent}
           >
             {post.content}

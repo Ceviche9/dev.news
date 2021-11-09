@@ -11,14 +11,9 @@ import { PostContentProps } from '../../protocols/postProtocols';
 import ReactMarkdown from 'react-markdown';
 // import remarkHtml from 'remark-html';
 
-import prims from 'prismjs'
-
 import styles from './post.module.scss'
 
 export default function Post({ post }: PostContentProps) {
-  useEffect(() => {
-    prims.highlightAll();
-  }, []);
 
   return(
     <>
